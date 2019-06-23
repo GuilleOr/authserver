@@ -6,6 +6,11 @@ branches:
     - /v\d+\.\d+[a-z]/
 jdk:
   - openjdk8
+addons:
+  sonarcloud:
+    organization: "medicinas"
+    token:
+      secure: "$SONAR_TOKEN"
 services:
   - docker
 before_install:
