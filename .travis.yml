@@ -9,7 +9,6 @@ jdk:
 addons:
   sonarcloud:
     organization: "medicinas"
-    projectKey: "medicinas_authserver"
     token:
       secure: "$SONAR_TOKEN"
 services:
