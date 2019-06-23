@@ -1,0 +1,9 @@
+
+___  ___ ___________
+|  \/  ||  ___|  _  \
+| .  . || |__ | | | |
+| |\/| ||  __|| | | |
+| |  | || |___| |/ /
+\_|  |_/\____/|___/
+
+Med - Auth Server        Sebastian Bogado              Ver: ${application.version}

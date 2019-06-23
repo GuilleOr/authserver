@@ -1,5 +1,6 @@
 package ar.com.medicinas.authserver.conf;
 
+import ar.com.medicinas.authserver.securty.CustomAuthenticationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,4 +64,6 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public void configureGlobal(AuthenticationManagerBuilder auth) {
 		auth.authenticationProvider(this.customAuthenticationProvider);
 	}
+
+}
 
