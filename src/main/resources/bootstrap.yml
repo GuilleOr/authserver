@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: authserver
+  cloud:
+    config:
+      uri: ${vcap.services.config-server.credentials.uri:https://med-config-server.herokuapp.com/}
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    config:
+      uri: http://178.128.131.123:8888
