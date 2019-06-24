@@ -6,11 +6,11 @@ branches:
     - /v\d+\.\d+[a-z]/
 jdk:
   - openjdk8
-addons:
-  sonarcloud:
-    organization: "medicinas"
-    token:
-      secure: "$SONAR_TOKEN"
+#addons:
+#  sonarcloud:
+#    organization: "medicinas"
+#    token:
+#      secure: "$SONAR_TOKEN"
 services:
   - docker
 before_install:
@@ -18,7 +18,7 @@ before_install:
 script:
   - mvn test
   - mvn clean package
-  - sonar-scanner
+#  - sonar-scanner
 # Create Docker image for our app and push it to Dockerhub repository and send messages to the Teams channel after the `script` job is successfully executed
 after_success:
   - export COMMIT=${TRAVIS_COMMIT::7}
