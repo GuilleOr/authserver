@@ -2,6 +2,7 @@ package ar.com.medicinas.authserver.securty;
 
 import ar.com.medicinas.authserver.model.Permission;
 import ar.com.medicinas.authserver.model.User;
+import ar.com.medicinas.authserver.securty.helper.PasswordEncoderHelper;
 import ar.com.medicinas.authserver.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -9,7 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -30,7 +31,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 		if (!user.isPresent()) {
 			throw new BadCredentialsException("Error trying to authenticate the user");
 		}
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		PasswordEncoder passwordEncoder = PasswordEncoderHelper.getBCryptPasswordEncoder();
 		if (!passwordEncoder.matches(password, user.get().getPassword())) {
 			user.get().addBadLogin();
 			user.get().setLocked(Integer.valueOf(3).equals(user.get().getBadLogin()));

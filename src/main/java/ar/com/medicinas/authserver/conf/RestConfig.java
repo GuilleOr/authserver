@@ -27,9 +27,9 @@ public class RestConfig {
 	private String authorizeUrl;
 	@Value("${oauth.token:http://localhost:8082/oauth/token}")
 	private String tokenUrl;
-	@Value("${ducode.auth-server.userId}")
+	@Value("${med.auth-server.userId}")
 	private String clientInfo;
-	@Value("${ducode.auth-server.userSecret}")
+	@Value("${med.auth-server.userSecret}")
 	private String clientSecret;
 	@Value("${config.timeout.generic:30000}")
 	private Integer timeout;

@@ -19,7 +19,7 @@ public class EmailServiceImplRest implements EmailService {
 	@Qualifier("emailServiceRestTemplate")
 	private RestTemplate restTemplate;
 
-	@Value("${duhire.email.server}")
+	@Value("${med.email.server}")
 	private String url;
 
 	@Async
