@@ -6,11 +6,6 @@ branches:
     - /v\d+\.\d+[a-z]/
 jdk:
   - openjdk8
-#addons:
-#  sonarcloud:
-#    organization: "medicinas"
-#    token:
-#      secure: "$SONAR_TOKEN"
 services:
   - docker
 before_install:
@@ -18,7 +13,6 @@ before_install:
 script:
   - mvn test
   - mvn clean package
-#  - sonar-scanner
 # Create Docker image for our app and push it to Dockerhub repository and send messages to the Teams channel after the `script` job is successfully executed
 after_success:
   - export COMMIT=${TRAVIS_COMMIT::7}
@@ -31,6 +25,7 @@ after_success:
   - export TIMESTAMP=`date`
   - export GIT_LOG=`git log -1 --pretty=%B $COMMIT`
   - export TEXT="[build version] $TAG<br />[datetime] $TIMESTAMP<br />[changelog] $GIT_LOG<br />"
+  - chmod +x send_to_teams.sh && ./send_to_teams.sh
 # If the `script` job fails, it will send a failure message to Teams channel
 after_failure:
   - export TITLE="Travis:$TRAVIS_JOB_ID -- build job is failed"
@@ -40,7 +35,7 @@ deploy:
   provider: heroku
   api-key:
     secure: "$HEROKU_API_KEY"
-  app: med-auth-server
+  app: med-authserver
   on:
     tags: true
     repo: "$HEROKU_APP"
