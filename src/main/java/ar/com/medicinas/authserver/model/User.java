@@ -19,13 +19,18 @@ public class User extends LogicalDeleteableBean {
 	private String name;
 	@NotNull
 	@NotEmpty
-	private String taxId;
-	@Enumerated(EnumType.STRING)
-	private UserTypeEnum userType;
-	@NotNull
-	@NotEmpty
 	@Column(unique = true)
 	private String username;
+	@NotNull
+	@NotEmpty
+	@Column(name = "document_number")
+	private String documentNumber;
+	@NotNull
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "document_type_id")
+	private DocumentType documentType;
+	@Enumerated(EnumType.STRING)
+	private UserTypeEnum userType;
 	@NotNull
 	@NotEmpty
 	private String password;

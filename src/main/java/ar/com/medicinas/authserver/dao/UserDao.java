@@ -11,7 +11,7 @@ public interface UserDao extends LogicalDeleteableBeanDao<User> {
 
 	Optional<User> findUserByActiveIsTrueAndEmailAndLockedIsFalse(String email);
 
-	Optional<User> findUserByEmailAndUsername(String email, String username);
+	Optional<User> findUserByDocumentNumberAndDocumentType_Id(String documentNumber, Long idDocumentType);
 
 	Optional<User> findUserByUsername(String username);
 

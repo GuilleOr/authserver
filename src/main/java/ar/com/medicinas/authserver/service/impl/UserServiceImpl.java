@@ -68,7 +68,7 @@ public class UserServiceImpl extends LogicalDeleteableBeanService<User> implemen
 	}
 
 	private User createUser(User user) {
-		if (userDao.findUserByEmailAndUsername(user.getEmail(), user.getUsername()).isPresent()) {
+		if (userDao.findUserByDocumentNumberAndDocumentType_Id(user.getDocumentNumber(), user.getDocumentType().getId()).isPresent()) {
 			throw new UserExistException(user.getEmail());
 		}
 		return userDao.save(prepareToCreate(user));
