@@ -30,8 +30,9 @@ public class AccountRestController {
 	}
 
 	@PostMapping
+	@PreAuthorize("#request.userRole.name()!='ADMINISTRATOR'")
 	public UserDTO createUser(@RequestBody @Valid CreateUserRequest request) {
-		return orikaMapper.map(userService.createClientUser(orikaMapper.map(request, User.class)), UserDTO.class);
+		return orikaMapper.map(userService.createUser(orikaMapper.map(request, User.class), request.getUserRole()), UserDTO.class);
 	}
 
 	@PreAuthorize("isAuthenticated()")

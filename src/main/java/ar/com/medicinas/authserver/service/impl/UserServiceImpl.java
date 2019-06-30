@@ -5,6 +5,7 @@ import ar.com.medicinas.authserver.exception.*;
 import ar.com.medicinas.authserver.model.AppLevelEnum;
 import ar.com.medicinas.authserver.model.Role;
 import ar.com.medicinas.authserver.model.User;
+import ar.com.medicinas.authserver.model.UserRoleEnum;
 import ar.com.medicinas.authserver.securty.helper.PasswordEncoderHelper;
 import ar.com.medicinas.authserver.service.RoleService;
 import ar.com.medicinas.authserver.service.UserService;
@@ -25,9 +26,9 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl extends LogicalDeleteableBeanService<User> implements UserService {
 	private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-	private static final String ADMINISTRATOR = "administrator";
-	private static final String CLIENT = "client";
+
 	private static PasswordEncoder passwordEncoder = PasswordEncoderHelper.getBCryptPasswordEncoder();
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -49,8 +50,8 @@ public class UserServiceImpl extends LogicalDeleteableBeanService<User> implemen
 	}
 
 	@Override
-	public Collection<User> readAllClientUsers(Boolean active) {
-		return findUserByAppLevelAndActive(active, AppLevelEnum.CLIENT);
+	public Collection<User> readAllPacientUsers(Boolean active) {
+		return findUserByAppLevelAndActive(active, AppLevelEnum.PACIENT);
 	}
 
 	public Optional<User> readUserForLogin(String username) {
@@ -67,7 +68,14 @@ public class UserServiceImpl extends LogicalDeleteableBeanService<User> implemen
 		return userDao.findUserByEmail(email);
 	}
 
-	private User createUser(User user) {
+	@Override
+	public User createUser(User user, UserRoleEnum userRole) {
+		String formatedRole = userRole.name().toLowerCase().trim();
+		Role role = roleService.readRoleByName(formatedRole).orElseThrow(() -> {
+			LOG.error(String.format("Error when I trying to read the %s role/profile ", formatedRole));
+			return new RoleNotFoundException(formatedRole);
+		});
+		user.setRoles(Arrays.asList(role));
 		if (userDao.findUserByDocumentNumberAndDocumentType_Id(user.getDocumentNumber(), user.getDocumentType().getId()).isPresent()) {
 			throw new UserExistException(user.getEmail());
 		}
@@ -99,16 +107,6 @@ public class UserServiceImpl extends LogicalDeleteableBeanService<User> implemen
 	}
 
 	@Override
-	public User createAdminUser(User user) {
-		return createDefaultProfileUser(user, ADMINISTRATOR);
-	}
-
-	@Override
-	public User createClientUser(User user) {
-		return createDefaultProfileUser(user, CLIENT);
-	}
-
-	@Override
 	public Optional<User> getAuthenticatedUser() {
 		return userDao.findByUuid(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 	}
@@ -136,16 +134,6 @@ public class UserServiceImpl extends LogicalDeleteableBeanService<User> implemen
 	@Override
 	public void disableAccount() {
 		userDao.deleteByUuid(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-	}
-
-	protected User createDefaultProfileUser(User user, String defaultRole) {
-		String formatedRole = defaultRole.toLowerCase().trim();
-		Role role = roleService.readRoleByName(formatedRole).orElseThrow(() -> {
-			LOG.error(String.format("Error when I trying to read the %s role/profile ", formatedRole));
-			return new RoleNotFoundException(formatedRole);
-		});
-		user.setRoles(Arrays.asList(role));
-		return createUser(user);
 	}
 
 	@Override

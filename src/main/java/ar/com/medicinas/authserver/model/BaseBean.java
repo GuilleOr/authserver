@@ -2,10 +2,7 @@ package ar.com.medicinas.authserver.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 public abstract class BaseBean extends TimestampBean {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@NotNull
 	@NotEmpty

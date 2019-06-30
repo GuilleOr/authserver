@@ -1,7 +1,7 @@
 package ar.com.medicinas.authserver.model;
 
 public enum UserRoleEnum {
-	MED,
+	DOCTOR,
 	PACIENT,
-	ADMIN
+	ADMINISTRATOR
 }
