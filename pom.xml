@@ -150,7 +150,8 @@
                 <artifactId>coveralls-maven-plugin</artifactId>
                 <version>4.3.0</version>
                 <configuration>
-                    <repoToken>iWdbrJz5I5upF3fHEqcotGQnj6NQFxBYS</repoToken>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <repoToken>${env.repoToken}</repoToken>
                 </configuration>
             </plugin>
             <plugin>
