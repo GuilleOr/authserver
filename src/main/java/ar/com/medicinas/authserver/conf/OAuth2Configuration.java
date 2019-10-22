@@ -49,7 +49,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 				.and()
 				.withClient("web_app")
 				.scopes("CLIENT")
-				.redirectUris("http://www.google.com")
+				.redirectUris("https://www.google.com")
 				.autoApprove(true)
 				.authorizedGrantTypes("client_credentials", "implicit", "refresh_token", "password", "authorization_code");
 	}
