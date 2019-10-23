@@ -27,11 +27,13 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
 		Hibernate.initialize(client.getScope());
 		Hibernate.initialize(client.getAuthorizedGrantTypes());
 		Hibernate.initialize(client.getAuthorities());
+		Hibernate.initialize(client.getRegisteredRedirectUri());
 		BaseClientDetails base = new BaseClientDetails(client.getClientId(), client.getResourceIds().stream().collect(Collectors.joining(",")),
 				client.getScope().stream().collect(Collectors.joining(",")),
 				client.getAuthorizedGrantTypes().stream().collect(Collectors.joining(",")),
 				client.getAuthorities().stream().collect(Collectors.joining(",")));
 		base.setClientSecret(client.getClientSecret());
+		base.setRegisteredRedirectUri(client.getRegisteredRedirectUri());
 		base.setAccessTokenValiditySeconds(client.getAccessTokenValiditySeconds());
 		base.setRefreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds());
 		base.setAdditionalInformation(client.getAdditionalInformation());
