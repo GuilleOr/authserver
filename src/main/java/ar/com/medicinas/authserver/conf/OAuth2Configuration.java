@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -24,6 +25,10 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 	@Qualifier("authenticationManagerBean")
 	private AuthenticationManager authenticationManager;
 
+	@Autowired
+	@Qualifier("customClientServiceDetailsImpl")
+	private ClientDetailsService clientDetailsService;
+
 	@Value("${app.client.id}")
 	private String clientId;
 	@Value("${app.client.secret}")
@@ -31,7 +36,8 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
+		clients.withClientDetails(clientDetailsService);
+		/*clients.inMemory()
 				.withClient(clientId)
 				.secret(clientSecret)
 				.scopes("SERVER")
@@ -51,7 +57,7 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 				.scopes("CLIENT")
 				.redirectUris("https://www.google.com")
 				.autoApprove(true)
-				.authorizedGrantTypes("client_credentials", "implicit", "refresh_token", "password", "authorization_code");
+				.authorizedGrantTypes("client_credentials", "implicit", "refresh_token", "password", "authorization_code");*/
 	}
 
 	@Override
